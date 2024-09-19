@@ -1,12 +1,32 @@
 package api
 
-import "database/sql"
+import (
+	"database/sql"
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 type APISERVER struct {
 	address string
 	db      *sql.DB
 }
 
-type NewAPIServer(address string, db *sql.DB) *APISERVER {
+func NewAPIServer(address string, db *sql.DB) *APISERVER {
+	return &APISERVER{
+		address: address,
+		db:      db,
+	}
+}
 
+func (s *APISERVER) Run() error {
+	router := mux.NewRouter()
+	subRouter := router.PathPrefix("/api/v1").Subrouter()
+
+	userHandler := user.newHandler()
+
+	log.Println("Server is running on", s.address)
+
+	return http.ListenAndServe(s.address, router)
 }
