@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/ParadisEmre/GoWebStudy/service/user"
 	"github.com/gorilla/mux"
 )
 
@@ -24,7 +25,8 @@ func (s *APISERVER) Run() error {
 	router := mux.NewRouter()
 	subRouter := router.PathPrefix("/api/v1").Subrouter()
 
-	userHandler := user.newHandler()
+	userHandler := user.NewHandler()
+	userHandler.RegisterRoutes(subRouter)
 
 	log.Println("Server is running on", s.address)
 
