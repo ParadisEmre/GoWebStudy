@@ -1,6 +1,6 @@
-module github.com/sikozonpc/ecom
+module github.com/ParadisEmre/GoWebStudy
 
-go 1.22.0
+go 1.23.1
 
 require github.com/go-sql-driver/mysql v1.8.1
 
@@ -17,6 +17,8 @@ require (
 )
 
 require (
+	github.com/ParadisEmre/GoWebStudy v0.0.0-20240919132905-9abd6535c57d
+	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-playground/validator/v10 v10.22.1
 	github.com/gorilla/mux v1.8.1
 	github.com/joho/godotenv v1.5.1 // indirect

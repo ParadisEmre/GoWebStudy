@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/sikozonpc/ecom/types"
+	"github.com/ParadisEmre/GoWebStudy/types"
 )
 
 type Store struct {
