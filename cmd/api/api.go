@@ -1,11 +1,12 @@
-package main
+package api
 
 import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
 
+	"github.com/ParadisEmre/GoWebStudy/services/cart"
+	"github.com/ParadisEmre/GoWebStudy/services/order"
 	"github.com/ParadisEmre/GoWebStudy/services/product"
 	"github.com/ParadisEmre/GoWebStudy/services/user"
 	"github.com/gorilla/mux"
@@ -32,14 +33,18 @@ func (s *APIServer) Run() error {
 	userHandler.RegisterRoutes(subrouter)
 
 	productStore := product.NewStore(s.db)
-	productHandler := product.NewHandler(productStore)
+	productHandler := product.NewHandler(productStore, userStore)
 	productHandler.RegisterRoutes(subrouter)
 
+	orderStore := order.NewStore(s.db)
+
+	cartHandler := cart.NewHandler(productStore, orderStore, userStore)
+	cartHandler.RegisterRoutes(subrouter)
+
 	// Serve static files
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("static")))
 
 	log.Println("Listening on", s.addr)
-	log.Println("Process PID", os.Getpid())
 
 	return http.ListenAndServe(s.addr, router)
 }

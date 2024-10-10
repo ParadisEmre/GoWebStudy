@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ParadisEmre/GoWebStudy/config"
+	"github.com/ParadisEmre/GoWebStudy/cmd/api"
+	"github.com/ParadisEmre/GoWebStudy/configs"
 	"github.com/ParadisEmre/GoWebStudy/db"
 	"github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	cfg := mysql.Config{
-		User:                 config.Envs.DBUser,
-		Passwd:               config.Envs.DBPassword,
-		Addr:                 config.Envs.DBAddress,
-		DBName:               config.Envs.DBName,
+		User:                 configs.Envs.DBUser,
+		Passwd:               configs.Envs.DBPassword,
+		Addr:                 configs.Envs.DBAddress,
+		DBName:               configs.Envs.DBName,
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,
@@ -28,7 +29,7 @@ func main() {
 
 	initStorage(db)
 
-	server := NewAPIServer(fmt.Sprintf(":%s", config.Envs.Port), db)
+	server := api.NewAPIServer(fmt.Sprintf(":%s", configs.Envs.Port), db)
 	if err := server.Run(); err != nil {
 		log.Fatal(err)
 	}
